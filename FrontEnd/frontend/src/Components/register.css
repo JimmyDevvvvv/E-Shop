@@ -1,0 +1,117 @@
+/* General Styles */
+.register {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: "Amazon Ember", Arial, sans-serif; /* Similar to Amazon's font */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    color: #232f3e;
+}
+
+.error {
+    color: #d93025;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.success {
+    color: #28a745;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.register__form .form__group {
+    margin-bottom: 20px;
+}
+
+.register__form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #111;
+}
+
+.register__form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1rem;
+    background: #f7f7f7;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.register__form input:focus {
+    border-color: #febd69;
+    box-shadow: 0 0 4px 2px rgba(254, 189, 105, 0.4);
+}
+
+.register__button {
+    width: 100%;
+    padding: 12px;
+    background-color: #febd69;
+    color: #111;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register__button:hover {
+    background-color: #f3a847;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.register__button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.register__footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.register__footer a {
+    color: #007185;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register__footer a:hover {
+    color: #f08804;
+}
+
+/* Add subtle hover effect on the container */
+.register:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .register {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}

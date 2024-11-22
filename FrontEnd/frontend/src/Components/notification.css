@@ -1,0 +1,176 @@
+/* General Styling */
+.notifications {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #f7f7f7, #ffffff);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1), 0 -3px 10px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 1s ease-in-out;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add Background Image */
+.notifications::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://images.unsplash.com/photo-1518515097038-ca19a3777cd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNzU3MXwwfHx8fHwxNjgyOTYxNzQx&ixlib=rb-4.0.3&q=80&w=1500");
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px) brightness(0.7);
+    z-index: 0;
+}
+
+.notifications > * {
+    position: relative;
+    z-index: 2;
+}
+
+.notifications h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #232f3e;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Notification List */
+.notifications__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Notification Card */
+.notification {
+    padding: 25px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #ffffff, #f3f3f3);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    animation: slideIn 0.6s ease-out;
+}
+
+/* Add Gradient Indicator */
+.notification::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    background: linear-gradient(90deg, #ff9900, #232f3e);
+    transition: height 0.3s ease;
+}
+
+.notification:hover::before {
+    height: 100%;
+    background: linear-gradient(145deg, rgba(255, 153, 0, 0.2), rgba(35, 47, 62, 0.2));
+}
+
+.notification:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Notification Content */
+.notification h3 {
+    margin: 0 0 10px;
+    font-size: 1.6rem;
+    color: #232f3e;
+    font-weight: bold;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.notification p {
+    margin: 0 0 10px;
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.notification small {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* Specific Styles for Types of Notifications */
+.notification.public {
+    border-left: 5px solid #007bff;
+    background: rgba(0, 123, 255, 0.05);
+}
+
+.notification.private {
+    border-left: 5px solid #28a745;
+    background: rgba(40, 167, 69, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .notifications {
+        padding: 20px;
+    }
+
+    .notification {
+        padding: 20px;
+    }
+
+    .notifications h2 {
+        font-size: 1.8rem;
+    }
+
+    .notification h3 {
+        font-size: 1.4rem;
+    }
+
+    .notification p {
+        font-size: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    animation: fadeIn 1s ease-in-out;
+}
