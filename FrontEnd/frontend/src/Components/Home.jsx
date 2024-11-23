@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaShoppingCart, FaBell } from "react-icons/fa"; // Import Font Awesome icons
+import { FaSearch, FaShoppingCart, FaBell, FaTools } from "react-icons/fa"; // Import Font Awesome icons
 import "./Home.css";
 
 const Home = () => {
@@ -45,13 +45,19 @@ const Home = () => {
                 <div className="header__nav">
                     {user ? (
                         <>
-                            <span className="header__welcome"></span>
+                            <span className="header__welcome">Welcome, {user.name}!</span>
                             <a href="/cart" className="header__navLink">
                                 <FaShoppingCart /> Cart
                             </a>
                             <a href="/notifications" className="header__navLink">
                                 <FaBell /> Notifications
                             </a>
+                            {/* Show Admin Dashboard button if the user is an admin */}
+                            {user.role === "admin" && (
+                                <a href="/admin-dashboard" className="header__navLink">
+                                    <FaTools /> Admin Dashboard
+                                </a>
+                            )}
                             <button onClick={handleLogout} className="header__navButton">Logout</button>
                         </>
                     ) : (
@@ -73,32 +79,16 @@ const Home = () => {
 
             {/* Categories Section */}
             <div className="categories">
-                <div className="category">
-                    <img
-                        src="https://cdn.pixabay.com/photo/2014/04/02/10/26/laptop-304311_960_720.png"
-                        alt="Electronics"
-                    />
+                <div className="category category--electronics">
                     <h3>Electronics</h3>
                 </div>
-                <div className="category">
-                    <img
-                        src="https://cdn.pixabay.com/photo/2016/08/26/15/06/woman-1623088_960_720.jpg"
-                        alt="Fashion"
-                    />
+                <div className="category category--fashion">
                     <h3>Fashion</h3>
                 </div>
-                <div className="category">
-                    <img
-                        src="https://cdn.pixabay.com/photo/2017/07/07/09/54/kitchen-2486092_960_720.jpg"
-                        alt="Home & Kitchen"
-                    />
+                <div className="category category--home-kitchen">
                     <h3>Home & Kitchen</h3>
                 </div>
-                <div className="category">
-                    <img
-                        src="https://cdn.pixabay.com/photo/2016/08/30/20/05/people-1634273_960_720.jpg"
-                        alt="Sports & Outdoors"
-                    />
+                <div className="category category--sports-outdoors">
                     <h3>Sports & Outdoors</h3>
                 </div>
             </div>

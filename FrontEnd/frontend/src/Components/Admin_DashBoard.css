@@ -1,0 +1,173 @@
+/* General Styling */
+.admin-dashboard {
+    padding: 30px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    background: linear-gradient(145deg, #232f3e, #37475a); /* Amazon dark theme */
+    color: #ffffff;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Decoration */
+.admin-dashboard::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://images.unsplash.com/photo-1593642532400-2682810df593?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNzU3MXwwfHx8fHwxNjgyOTYxNzQx&ixlib=rb-4.0.3&q=80&w=2000");
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px) brightness(0.5);
+    z-index: 0;
+}
+
+.admin-dashboard > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Titles */
+.admin-dashboard h1 {
+    font-size: 3rem;
+    color: #ff9900; /* Amazon's signature orange */
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.admin-dashboard h2 {
+    font-size: 2rem;
+    color: #ff9900;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    animation: slideIn 1s ease;
+}
+
+/* Sections */
+.admin-dashboard section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(145deg, #37475a, #232f3e);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInSection 1.2s ease-in-out;
+    color: #ffffff;
+}
+
+.admin-dashboard section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* Inputs, Textareas, and Selects */
+.admin-dashboard input,
+.admin-dashboard textarea,
+.admin-dashboard select {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    width: 100%;
+    max-width: 500px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #232f3e;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard input:focus,
+.admin-dashboard textarea:focus,
+.admin-dashboard select:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 5px 2px rgba(255, 153, 0, 0.3);
+    outline: none;
+}
+
+/* Buttons */
+.admin-dashboard button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff9900;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-dashboard button:hover {
+    background-color: #cc7a00;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.admin-dashboard button:active {
+    transform: scale(0.98);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInSection {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-dashboard h1 {
+        font-size: 2.5rem;
+    }
+
+    .admin-dashboard h2 {
+        font-size: 1.8rem;
+    }
+
+    .admin-dashboard input,
+    .admin-dashboard textarea,
+    .admin-dashboard select {
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .admin-dashboard button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+}

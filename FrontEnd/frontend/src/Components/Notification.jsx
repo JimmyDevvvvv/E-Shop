@@ -16,7 +16,7 @@ const Notification = () => {
                     return;
                 }
 
-                const response = await fetch("http://localhost:2003/notifications/get", {
+                const response = await fetch("http://localhost:1002/notifications/get", {
                     headers: {
                         Authorization: `Bearer ${token}`, // Send token in Authorization header
                     },

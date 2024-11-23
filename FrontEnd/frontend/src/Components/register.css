@@ -1,38 +1,56 @@
 /* General Styles */
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 1s ease-in-out;
+}
+
 .register {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #ffffff, #f7f7f7);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-family: "Amazon Ember", Arial, sans-serif; /* Similar to Amazon's font */
-}
-
-h2 {
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 1.8rem;
-    color: #232f3e;
+    font-family: "Amazon Ember", Arial, sans-serif;
 }
 
+.register h2 {
+    margin-bottom: 25px;
+    font-size: 2rem;
+    color: #232f3e;
+    font-weight: bold;
+    animation: textPop 1s ease;
+}
+
+/* Error and Success Messages */
 .error {
     color: #d93025;
     font-size: 0.95rem;
-    text-align: center;
     margin-bottom: 15px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 .success {
     color: #28a745;
     font-size: 0.95rem;
-    text-align: center;
     margin-bottom: 15px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Form Styles */
 .register__form .form__group {
     margin-bottom: 20px;
+    text-align: left;
+    animation: slideInLeft 1s ease;
 }
 
 .register__form label {
@@ -56,9 +74,10 @@ h2 {
 
 .register__form input:focus {
     border-color: #febd69;
-    box-shadow: 0 0 4px 2px rgba(254, 189, 105, 0.4);
+    box-shadow: 0 0 6px 2px rgba(254, 189, 105, 0.4);
 }
 
+/* Submit Button */
 .register__button {
     width: 100%;
     padding: 12px;
@@ -66,52 +85,80 @@ h2 {
     color: #111;
     border: none;
     border-radius: 6px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    animation: slideInUp 1s ease-in;
 }
 
 .register__button:hover {
     background-color: #f3a847;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
-.register__button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
-}
-
+/* Footer Links */
 .register__footer {
     margin-top: 20px;
-    text-align: center;
     font-size: 0.9rem;
     color: #666;
+    animation: fadeIn 1.5s ease;
 }
 
 .register__footer a {
     color: #007185;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .register__footer a:hover {
     color: #f08804;
+    transform: scale(1.05);
 }
 
-/* Add subtle hover effect on the container */
-.register:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-    .register {
-        padding: 20px;
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-    h2 {
-        font-size: 1.5rem;
+@keyframes textPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./register.css";
 
 const Register = () => {
@@ -10,7 +11,6 @@ const Register = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -19,14 +19,13 @@ const Register = () => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setSuccess("");
 
         try {
-            const response = await fetch("http://localhost:2003/user/register", {
+            const response = await fetch("http://localhost:1002/user/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,48 +48,60 @@ const Register = () => {
     };
 
     return (
-        <div className="register">
-            <h2>Register</h2>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">{success}</p>}
-            <form onSubmit={handleSubmit} className="register__form">
-                <div className="form__group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
+        <div className="register-page">
+            <div className="register-container">
+                <div className="register">
+                    <h2>Create Account</h2>
+                    {error && <p className="error">{error}</p>}
+                    {success && <p className="success">{success}</p>}
+                    <form onSubmit={handleSubmit} className="register__form">
+                        <div className="form__group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form__group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form__group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="register__button">
+                            Register
+                        </button>
+                    </form>
+                    <div className="register__footer">
+                        <p>
+                            Already have an account?{" "}
+                            <Link to="/login" className="login-link">
+                                Log in here
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-                <div className="form__group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form__group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="register__button">
-                    Register
-                </button>
-            </form>
+            </div>
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 const Login = () => {
@@ -25,7 +26,7 @@ const Login = () => {
         setSuccess("");
 
         try {
-            const response = await fetch("http://localhost:2003/user/login", {
+            const response = await fetch("http://localhost:1002/user/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const Login = () => {
 
             // Redirect or take further action based on role
             if (data.role === "admin") {
-                window.location.href = "/admin"; // Redirect to admin dashboard
+                window.location.href = "/admin-dashboard"; // Redirect to admin dashboard
             } else {
                 window.location.href = "/"; // Redirect to home
             }
@@ -58,37 +59,47 @@ const Login = () => {
     };
 
     return (
-        <div className="login">
-            <h2>Login</h2>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">{success}</p>}
-            <form onSubmit={handleSubmit} className="login__form">
-                <div className="form__group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
+        <div className="login-page">
+            <div className="login">
+                <h2>Login</h2>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
+                <form onSubmit={handleSubmit} className="login__form">
+                    <div className="form__group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form__group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login__button">
+                        Login
+                    </button>
+                </form>
+                <div className="login__footer">
+                    <p>
+                        Don't have an account?{" "}
+                        <Link to="/register" className="register-link">
+                            Click here to register
+                        </Link>
+                    </p>
                 </div>
-                <div className="form__group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="login__button">
-                    Login
-                </button>
-            </form>
+            </div>
         </div>
     );
 };
