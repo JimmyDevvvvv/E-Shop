@@ -5,6 +5,7 @@ import Register from "./Components/Register";
 import Login from "./Components/Login";
 import Notifications from "./Components/Notification";
 import Admin_Dashboard from "./Components/Admin_DashBoard";
+import Cart from "./Components/Cart";
 
 const NotFound = () => {
     return (
@@ -63,6 +64,14 @@ const App = () => {
                     }
                 />
                 <Route
+                    path="/cart" // Add the Cart route
+                    element={
+                        <ProtectedRoute>
+                            <Cart />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
                     path="/admin-dashboard"
                     element={
                         <ProtectedRoute>
@@ -72,7 +81,6 @@ const App = () => {
                         </ProtectedRoute>
                     }
                 />
-                { }
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

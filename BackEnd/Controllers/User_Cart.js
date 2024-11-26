@@ -3,51 +3,63 @@ const User = require('../models/User');
 const Product = require('../Models/Product');
 const addToCart = async (req, res) => {
     try {
-        const { title, message, type, userId } = req.body;
+        const { productId } = req.body;
         const { userID, role } = req.user;
 
-        // Check if the user is an admin
-        if (role !== 'admin') {
-            return res.status(403).json({ msg: 'Only admins can create notifications' });
+        // Check if the user is a customer
+        if (role !== 'customer') {
+            return res.status(403).json({ msg: 'Only customers can add products to the shopping cart' });
         }
 
-        // Validate userId for private notifications
-        if (type === 'private') {
-            if (!mongoose.Types.ObjectId.isValid(userId)) {
-                return res.status(400).json({ msg: 'Invalid userId provided' });
-            }
-
-            // Ensure the user exists
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).json({ msg: 'User not found for private notification' });
-            }
+        // Fetch the user document
+        const customer = await User.findOne({ _id: userID });
+        if (!customer) {
+            return res.status(404).json({ msg: 'User not found' });
         }
 
-        // Create the notification
-        const notification = new Notification({
-            title,
-            message,
-            type,
-            userId: type === 'private' ? userId : null,
-            createdBy: userID
+        // Check if the product exists
+        const product = await Product.findOne({ _id: productId });
+        if (!product) {
+            return res.status(404).json({ msg: 'Product not found' });
+        }
+
+        // Check if the product is already in the cart
+        const existingCartItem = customer.shoppingCart.find(
+            (item) => item.productId.toString() === productId
+        );
+
+        if (existingCartItem) {
+            // If the product exists, increase its quantity
+            existingCartItem.quantity += 1;
+        } else {
+            // Add a new product to the cart
+            customer.shoppingCart.push({
+                productId: product._id,
+                name: product.name,
+                quantity: 1,
+                price: product.price,
+            });
+        }
+
+        // Save the updated user document
+        await customer.save();
+
+        res.status(200).json({
+            msg: 'Product added to the shopping cart successfully',
+            NumberOfProducts: customer.shoppingCart.length,
+            cartDetail: customer.shoppingCart.map((item) => ({
+                productId: item.productId,
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+            })),
         });
-
-        await notification.save();
-
-        // Link notification to the user (only for private notifications)
-        if (type === 'private') {
-            const user = await User.findById(userId);
-            user.notifications.push(notification._id);
-            await user.save();
-        }
-
-        res.status(200).json({ msg: 'Notification added successfully', notification });
     } catch (error) {
-        console.error('Error adding notification:', error.message);
+        console.error('Error adding product to the shopping cart:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 const removeFromCart = async (req, res) => {
     try {
         const { productId } = req.body;
@@ -57,41 +69,46 @@ const removeFromCart = async (req, res) => {
         if (role !== 'customer') {
             return res.status(403).json({ msg: 'Only customers can remove products from the shopping cart' });
         }
-
-        // Find the customer
-        const customer = await User.findById(userID);
-        if (!customer) {
-            return res.status(404).json({ msg: 'User not found' });
+        let user = await User.findOne({_id:userID})
+        if(user.shoppingCart.length === 0){
+            return res.status(405).json({msg: `your cart is empty`, cartDetail: `${user.shoppingCart}`})
         }
 
-        // Check if the cart is empty
-        if (customer.shoppingCart.length === 0) {
-            return res.status(400).json({ msg: 'Your cart is empty' });
-        }
-
-        // Check if the product is in the cart
-        const isInCart = customer.shoppingCart.some(item => item.productId.toString() === productId);
-        if (!isInCart) {
-            return res.status(404).json({ msg: 'Product not found in the shopping cart' });
-        }
-
-        // Remove the product from the shopping cart
-        customer.shoppingCart = customer.shoppingCart.filter(item => item.productId.toString() !== productId);
-        await customer.save();
-
-        res.status(200).json({
-            msg: 'Product removed from the shopping cart successfully',
-            cartDetail: customer.shoppingCart.map(item => ({
-                productId: item.productId,
-            })),
-        });
+        await User.findOneAndUpdate({ _id: userID },{ $pull: { shoppingCart: { productId: productId } } });
+        res.status(200).json({ msg: 'Product removed from the shopping cart successfully' });
     } catch (error) {
-        console.error('Error removing product from the shopping cart:', error.message);
+        console.error('Error removing product from the shopping cart:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
+
+const getAllFromCart = async (req, res) => {
+    try {
+        const { userID, role } = req.user;
+
+        // Check if the user is a customer
+        if (role !== 'customer') {
+            return res.status(403).json({ msg: 'Only customers can view the shopping cart' });
+        }
+
+        let user = await User.findOne({ _id: userID });
+        if (user.shoppingCart.length === 0) {
+            return res.status(405).json({ msg: 'Your cart is empty', cartDetail: user.shoppingCart });
+        }
+
+        res.status(200).json({ cartDetail: user.shoppingCart });
+    } catch (error) {
+        console.error('Error fetching products from the shopping cart:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+
+
 module.exports = {
     addToCart,
-    removeFromCart
+    removeFromCart,
+    getAllFromCart
 };

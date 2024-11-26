@@ -45,7 +45,7 @@ const Home = () => {
                 <div className="header__nav">
                     {user ? (
                         <>
-                            <span className="header__welcome">Welcome, {user.name}!</span>
+                            <span className="header__welcome"></span>
                             <a href="/cart" className="header__navLink">
                                 <FaShoppingCart /> Cart
                             </a>

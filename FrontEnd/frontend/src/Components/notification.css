@@ -1,46 +1,35 @@
+/* Add a Full Page Background */
+body {
+    margin: 0;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    background: url("https://images.unsplash.com/photo-1518515097038-ca19a3777cd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000")
+    no-repeat center center fixed;
+    background-size: cover;
+    color: #232f3e;
+}
+
 /* General Styling */
 .notifications {
     max-width: 900px;
-    margin: 30px auto;
-    padding: 30px;
-    background: linear-gradient(145deg, #f7f7f7, #ffffff);
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1), 0 -3px 10px rgba(0, 0, 0, 0.05);
-    animation: fadeIn 1s ease-in-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     font-family: "Amazon Ember", Arial, sans-serif;
+    animation: fadeIn 1s ease-in-out;
     position: relative;
-    overflow: hidden;
-}
-
-/* Add Background Image */
-.notifications::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://images.unsplash.com/photo-1518515097038-ca19a3777cd6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNzU3MXwwfHx8fHwxNjgyOTYxNzQx&ixlib=rb-4.0.3&q=80&w=1500");
-    background-size: cover;
-    background-position: center;
-    filter: blur(8px) brightness(0.7);
-    z-index: 0;
-}
-
-.notifications > * {
-    position: relative;
-    z-index: 2;
 }
 
 .notifications h2 {
-    margin-bottom: 20px;
-    font-size: 2rem;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
     color: #232f3e;
-    font-family: "Amazon Ember", Arial, sans-serif;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    animation: slideInDown 0.8s ease;
 }
 
 /* Notification List */
@@ -54,54 +43,36 @@
 
 /* Notification Card */
 .notification {
-    padding: 25px;
+    padding: 20px 25px;
     border-radius: 15px;
-    background: linear-gradient(145deg, #ffffff, #f3f3f3);
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     position: relative;
-    overflow: hidden;
     cursor: pointer;
+    overflow: hidden;
     animation: slideIn 0.6s ease-out;
-}
-
-/* Add Gradient Indicator */
-.notification::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 5px;
-    width: 100%;
-    background: linear-gradient(90deg, #ff9900, #232f3e);
-    transition: height 0.3s ease;
-}
-
-.notification:hover::before {
-    height: 100%;
-    background: linear-gradient(145deg, rgba(255, 153, 0, 0.2), rgba(35, 47, 62, 0.2));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .notification:hover {
     transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* Notification Content */
 .notification h3 {
     margin: 0 0 10px;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: #232f3e;
     font-weight: bold;
-    font-family: "Amazon Ember", Arial, sans-serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .notification p {
     margin: 0 0 10px;
     color: #555;
+    font-size: 1.2rem;
     line-height: 1.6;
-    font-size: 1.1rem;
 }
 
 .notification small {
@@ -110,15 +81,15 @@
     font-style: italic;
 }
 
-/* Specific Styles for Types of Notifications */
+/* Public/Private Styles */
 .notification.public {
-    border-left: 5px solid #007bff;
-    background: rgba(0, 123, 255, 0.05);
+    border-left: 6px solid #ff9900;
+    background: rgba(255, 153, 0, 0.05);
 }
 
 .notification.private {
-    border-left: 5px solid #28a745;
-    background: rgba(40, 167, 69, 0.05);
+    border-left: 6px solid #007185;
+    background: rgba(0, 113, 133, 0.05);
 }
 
 /* Responsive Design */
@@ -128,7 +99,7 @@
     }
 
     .notification {
-        padding: 20px;
+        padding: 15px;
     }
 
     .notifications h2 {
@@ -163,6 +134,17 @@
     }
     to {
         transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
         opacity: 1;
     }
 }

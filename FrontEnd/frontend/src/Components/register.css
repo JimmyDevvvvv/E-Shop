@@ -6,16 +6,31 @@
     align-items: center;
     background: url("https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000") no-repeat center center fixed;
     background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Adds a subtle dark overlay */
+    z-index: 1;
 }
 
 .register-container {
+    position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 500px;
-    padding: 20px;
+    padding: 30px;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    animation: fadeIn 1s ease-in-out;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    animation: smoothFadeIn 0.8s ease-out;
 }
 
 .register {
@@ -25,10 +40,12 @@
 
 .register h2 {
     margin-bottom: 25px;
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: #232f3e;
     font-weight: bold;
-    animation: textPop 1s ease;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    letter-spacing: 1px;
+    animation: fadeSlideIn 1s ease-out;
 }
 
 /* Error and Success Messages */
@@ -36,21 +53,21 @@
     color: #d93025;
     font-size: 0.95rem;
     margin-bottom: 15px;
-    animation: fadeIn 1.5s ease-in-out;
+    animation: fadeIn 0.5s ease;
 }
 
 .success {
     color: #28a745;
     font-size: 0.95rem;
     margin-bottom: 15px;
-    animation: fadeIn 1.5s ease-in-out;
+    animation: fadeIn 0.5s ease;
 }
 
 /* Form Styles */
 .register__form .form__group {
     margin-bottom: 20px;
     text-align: left;
-    animation: slideInLeft 1s ease;
+    animation: fadeSlideIn 0.6s ease-out;
 }
 
 .register__form label {
@@ -69,12 +86,12 @@
     outline: none;
     font-size: 1rem;
     background: #f7f7f7;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .register__form input:focus {
     border-color: #febd69;
-    box-shadow: 0 0 6px 2px rgba(254, 189, 105, 0.4);
+    box-shadow: 0 0 8px rgba(254, 189, 105, 0.4);
 }
 
 /* Submit Button */
@@ -88,14 +105,13 @@
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    animation: slideInUp 1s ease-in;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .register__button:hover {
     background-color: #f3a847;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
 }
 
 /* Footer Links */
@@ -103,62 +119,64 @@
     margin-top: 20px;
     font-size: 0.9rem;
     color: #666;
-    animation: fadeIn 1.5s ease;
+    animation: fadeIn 0.6s ease;
 }
 
 .register__footer a {
     color: #007185;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .register__footer a:hover {
     color: #f08804;
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
-/* Animations */
+/* Smooth Animations */
+@keyframes smoothFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes textPop {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
         opacity: 1;
     }
 }
 
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
+/* Responsive Design */
+@media (max-width: 480px) {
+    .register-container {
+        padding: 20px;
     }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
 
-@keyframes slideInUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
+    h2 {
+        font-size: 1.8rem;
     }
-    to {
-        transform: translateY(0);
-        opacity: 1;
+
+    .register__button {
+        font-size: 1rem;
     }
 }
