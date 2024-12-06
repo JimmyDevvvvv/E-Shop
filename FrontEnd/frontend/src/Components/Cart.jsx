@@ -17,7 +17,7 @@ const Cart = () => {
                     return;
                 }
 
-                const response = await fetch("http://localhost:7777/cart", {
+                const response = await fetch("http://localhost:9814/cart", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const Cart = () => {
     async function removeItem(productId) {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:7777/cart", {
+            const response = await fetch("http://localhost:9814/cart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     const postProduct = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:7777/products", {
+            const response = await fetch("http://localhost:9814/products", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
     const postNotification = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:7777/notifications", {
+            const response = await fetch("http://localhost:9814/notifications", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const AdminDashboard = () => {
     const deleteProduct = async (productId) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:7777/products/${productId}`, {
+            const response = await fetch(`http://localhost:9814/products/${productId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
     const deleteNotification = async (notificationId) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:7777/notifications/${notificationId}`, {
+            const response = await fetch(`http://localhost:9814/notifications/${notificationId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
