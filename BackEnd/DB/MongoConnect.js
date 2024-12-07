@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 class MongoConnect {
-    static #instance = null; // Private static instance
+    static #instance = null;
 
     constructor() {
         if (MongoConnect.#instance) {

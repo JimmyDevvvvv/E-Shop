@@ -81,19 +81,27 @@ const deleteProduct = async (req, res) => {
 
 const searchProducts = async (req, res) => {
     try {
-        const { query } = req.query; // Extract search query from query parameters
+        const { query } = req.query;
 
         if (!query || query.trim() === '') {
             return res.status(400).json({ error: 'Search query is required' });
         }
 
-        // Case-insensitive regex search for both name and description
-        const products = await Product.find({
+        const sanitizedQuery = query.trim(); // Remove unnecessary whitespace/newlines
+        console.log("Query Received:", sanitizedQuery);
+
+        const regex = new RegExp(sanitizedQuery, 'i'); // Create a case-insensitive regex
+        const queryObject = {
             $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { description: { $regex: query, $options: 'i' } },
+                { name: regex },
+                { description: regex },
             ],
-        });
+        };
+
+        console.log("Query Object:", queryObject);
+
+        const products = await Product.find(queryObject);
+        console.log("Search Results:", products);
 
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found' });
@@ -105,8 +113,6 @@ const searchProducts = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
-
-
 
 module.exports = {
 
