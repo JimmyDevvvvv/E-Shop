@@ -33,19 +33,20 @@ const Register = () => {
                 body: JSON.stringify(formData),
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
-                setError(errorData.message || "Registration failed");
+                setError(data.msg || "Registration failed");
                 return;
             }
 
-            const data = await response.json();
-            setSuccess("Registration successful! Please log in.");
+            setSuccess(data.msg); // Now displays "User registered successfully"
             setFormData({ name: "", email: "", password: "" });
         } catch (error) {
             setError("Something went wrong. Please try again later.");
         }
     };
+
 
     return (
         <div className="register-page">

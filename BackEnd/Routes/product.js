@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const {  createProduct, updateProduct, deleteProduct,searchProducts } = require('../controllers/product')
 const { authenticateToken ,authorizeAdmin}= require('../MiddleWare/Authentication_Handler');
-
-
 // admin priv8
 router.post('/',authenticateToken, createProduct)
 
