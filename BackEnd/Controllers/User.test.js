@@ -14,7 +14,7 @@ app.post('/register', register);
 describe('User Controller', () => {
     beforeAll(async () => {
         // Connect to a test database. You can also use mongodb-memory-server for in-memory tests
-        const url = `mongodb://127.0.0.1/user_test_db`;
+        const url = `mongodb://localhost:27017/test`;
         await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
     });
 
