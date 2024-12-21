@@ -6,6 +6,7 @@ import Login from "./Components/Login";
 import Notifications from "./Components/Notification";
 import Admin_Dashboard from "./Components/Admin_DashBoard";
 import Cart from "./Components/Cart";
+import Checkout from "./Components/Checkout";
 
 const NotFound = () => {
     return (
@@ -78,6 +79,14 @@ const App = () => {
                             <AdminRoute>
                                 <Admin_Dashboard />
                             </AdminRoute>
+                        </ProtectedRoute>
+                    }
+                />
+                  <Route
+                    path="/Checkout" // Add the Checkout route
+                    element={
+                        <ProtectedRoute>
+                            <Checkout />
                         </ProtectedRoute>
                     }
                 />
