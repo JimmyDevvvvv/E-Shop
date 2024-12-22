@@ -6,6 +6,7 @@ import Login from "./Components/Login";
 import Notifications from "./Components/Notification";
 import Admin_Dashboard from "./Components/Admin_DashBoard";
 import Cart from "./Components/Cart";
+import Product_Page from "./Components/Products_Page";
 
 const NotFound = () => {
     return (
@@ -55,6 +56,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/product-page" element={<Product_Page />} />
                 <Route
                     path="/notifications"
                     element={

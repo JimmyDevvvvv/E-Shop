@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaShoppingCart, FaBell, FaTools } from "react-icons/fa"; // Import Font Awesome icons
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import "./Home.css";
 
 const Home = () => {
     const [user, setUser] = useState(null); // State to store the logged-in user's details
+    const [searchQuery, setSearchQuery] = useState(""); // State to track the search query
+    const navigate = useNavigate(); // Hook for navigation
 
     // Simulate fetching user data from token or API
     useEffect(() => {
@@ -31,21 +34,33 @@ const Home = () => {
         window.location.href = "/"; // Redirect to home
     };
 
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/product-page?query=${searchQuery}`); // Redirect to Product_Page with query as a URL parameter
+        }
+    };
+
     return (
         <div className="home">
             {/* Header */}
             <div className="header">
                 <a href="/" className="header__logo">E-Shop</a>
                 <div className="header__search">
-                    <input type="text" className="header__searchInput" placeholder="Search products..." />
-                    <button className="header__searchButton">
+                    <input
+                        type="text"
+                        className="header__searchInput"
+                        placeholder="Search products..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery on input change
+                    />
+                    <button className="header__searchButton" onClick={handleSearch}>
                         <FaSearch />
                     </button>
                 </div>
                 <div className="header__nav">
                     {user ? (
                         <>
-                            <span className="header__welcome"></span>
+                            <span className="header__welcome">Welcome, {user.name}</span>
                             <a href="/cart" className="header__navLink">
                                 <FaShoppingCart /> Cart
                             </a>

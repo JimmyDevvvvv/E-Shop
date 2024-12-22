@@ -5,6 +5,7 @@ const Cart = () => {
     const [cartItems, setCartItems] = useState([]); // State to store cart items
     const [loading, setLoading] = useState(true); // State to show a loading spinner
     const [error, setError] = useState(null); // State to handle errors
+    const [successMessage, setSuccessMessage] = useState(""); // State for success messages
 
     // Fetch cart items on component mount
     useEffect(() => {
@@ -17,7 +18,7 @@ const Cart = () => {
                     return;
                 }
 
-                const response = await fetch("http://localhost:9814/cart", {
+                const response = await fetch("http://localhost:9821/cart/", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -43,6 +44,61 @@ const Cart = () => {
         fetchCartItems();
     }, []);
 
+    // Function to handle removing an item
+    async function removeItem(productId) {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://localhost:9821/cart/", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ productId }),
+            });
+
+            if (!response.ok) {
+                const { msg } = await response.json();
+                alert(msg || "Failed to remove item.");
+                return;
+            }
+
+            // Filter out the removed item from state
+            setCartItems(cartItems.filter((item) => item.productId !== productId));
+            setSuccessMessage("Item removed successfully.");
+        } catch (err) {
+            console.error("Error removing item:", err);
+            alert("Internal server error. Please try again later.");
+        }
+    }
+
+    // Function to handle checkout
+    async function handleCheckout() {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch("http://localhost:9821/cart/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                const { msg } = await response.json();
+                alert(msg || "Failed to complete checkout.");
+                return;
+            }
+
+            const data = await response.json();
+            setCartItems([]); // Clear cart items
+            setSuccessMessage(`Checkout successful. Total: $${data.total}`);
+        } catch (err) {
+            console.error("Error during checkout:", err);
+            alert("Internal server error. Please try again later.");
+        }
+    }
+
     // Render loading state
     if (loading) {
         return <div className="cart__loading">Loading your cart...</div>;
@@ -57,6 +113,7 @@ const Cart = () => {
     return (
         <div className="cart">
             <h1>Your Shopping Cart</h1>
+            {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>
             ) : (
@@ -74,36 +131,24 @@ const Cart = () => {
                             </button>
                         </div>
                     ))}
+                    <button
+                        className="cart__checkoutButton"
+                        onClick={handleCheckout}
+                        style={{
+                            padding: "10px 20px",
+                            backgroundColor: "#ff9900",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Checkout
+                    </button>
                 </div>
             )}
         </div>
     );
-
-    // Function to handle removing an item
-    async function removeItem(productId) {
-        try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:9814/cart", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ productId }),
-            });
-
-            if (!response.ok) {
-                const { msg } = await response.json();
-                alert(msg || "Failed to remove item.");
-                return;
-            }
-
-            // Filter out the removed item from state
-            setCartItems(cartItems.filter((item) => item.productId !== productId));
-        } catch (err) {
-            console.error("Error removing item:", err);
-            alert("Internal server error. Please try again later.");
-        }
-    }
 };
+
 export default Cart;

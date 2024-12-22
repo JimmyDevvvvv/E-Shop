@@ -103,6 +103,46 @@ const getAllFromCart = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+const checkout = async (req, res) => {
+    try {
+        const { userID, role } = req.user;
+
+        // Check if the user is a customer
+        if (role !== 'customer') {
+            return res.status(403).json({ msg: 'Only customers can checkout' });
+        }
+
+        // Fetch the user
+        const customer = await User.findOne({ _id: userID });
+        if (!customer) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        if (customer.shoppingCart.length === 0) {
+            return res.status(405).json({ msg: 'Your cart is empty' });
+        }
+
+        // Calculate the total price
+        const totalPrice = customer.shoppingCart.reduce((total, item) => {
+            return total + item.price * item.quantity;
+        }, 0);
+
+        // Mock checkout processing (e.g., saving an order, sending a confirmation)
+        console.log(`Processing order for user ${customer.name}...`);
+
+        // Clear the cart
+        customer.shoppingCart = [];
+        await customer.save();
+
+        res.status(200).json({
+            msg: 'Checkout successful',
+            total: totalPrice,
+        });
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 
@@ -110,5 +150,6 @@ const getAllFromCart = async (req, res) => {
 module.exports = {
     addToCart,
     removeFromCart,
-    getAllFromCart
+    getAllFromCart,
+    checkout
 };
