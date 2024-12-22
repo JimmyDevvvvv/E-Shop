@@ -13,13 +13,14 @@ const AdminDashboard = () => {
         title: "",
         message: "",
         type: "public", // Default type
+        userId: "", // Add userId for private notifications
     });
 
     const handleProductChange = (e) => {
         const { name, value } = e.target;
         setProduct((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: name === "price" || name === "stock" ? Number(value) : value, // Ensure numeric fields are numbers
         }));
     };
 
@@ -32,9 +33,15 @@ const AdminDashboard = () => {
     };
 
     const postProduct = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("You are not logged in!");
+            return;
+        }
+
         try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:9821/products", {
+            const response = await fetch("http://localhost:9821/product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,23 +49,32 @@ const AdminDashboard = () => {
                 },
                 body: JSON.stringify(product),
             });
-            if (response.ok) {
-                alert("Product added successfully!");
-                setProduct({ name: "", description: "", price: "", stock: "" });
-            } else {
+
+            if (!response.ok) {
                 const errorData = await response.json();
-                alert(`Error: ${errorData.msg || "Failed to add product"}`);
+                console.error("Error Response:", errorData);
+                alert(`Error: ${errorData.error || "Failed to add product"}`);
+                return;
             }
+
+            alert("Product added successfully!");
+            setProduct({ name: "", description: "", price: "", stock: "" }); // Reset form fields
         } catch (error) {
-            alert("An error occurred while posting the product.");
-            console.error(error.message);
+            console.error("Network Error:", error.message);
+            alert("An unexpected error occurred while adding the product.");
         }
     };
 
     const postNotification = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("You are not logged in!");
+            return;
+        }
+
         try {
-            const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:9821/notifications", {
+            const response = await fetch("http://localhost:9821/notifications/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,58 +82,79 @@ const AdminDashboard = () => {
                 },
                 body: JSON.stringify(notification),
             });
-            if (response.ok) {
-                alert("Notification posted successfully!");
-                setNotification({ title: "", message: "", type: "public" });
-            } else {
+
+            if (!response.ok) {
                 const errorData = await response.json();
+                console.error("Error Response:", errorData);
                 alert(`Error: ${errorData.msg || "Failed to post notification"}`);
+                return;
             }
+
+            alert("Notification posted successfully!");
+            setNotification({ title: "", message: "", type: "public", userId: "" }); // Reset form fields
         } catch (error) {
-            alert("An error occurred while posting the notification.");
-            console.error(error.message);
+            console.error("Network Error:", error.message);
+            alert("An unexpected error occurred while posting the notification.");
         }
     };
 
     const deleteProduct = async (productId) => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("You are not logged in!");
+            return;
+        }
+
         try {
-            const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:9821/products/${productId}`, {
+            const response = await fetch(`http://localhost:9821/product/${productId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response.ok) {
-                alert("Product deleted successfully!");
-            } else {
+
+            if (!response.ok) {
                 const errorData = await response.json();
+                console.error("Error Response:", errorData);
                 alert(`Error: ${errorData.msg || "Failed to delete product"}`);
+                return;
             }
+
+            alert("Product deleted successfully!");
         } catch (error) {
-            alert("An error occurred while deleting the product.");
-            console.error(error.message);
+            console.error("Network Error:", error.message);
+            alert("An unexpected error occurred while deleting the product.");
         }
     };
 
     const deleteNotification = async (notificationId) => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("You are not logged in!");
+            return;
+        }
+
         try {
-            const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:9821/notifications/${notificationId}`, {
+            const response = await fetch(`http://localhost:9821/notifications/delete/${notificationId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response.ok) {
-                alert("Notification deleted successfully!");
-            } else {
+
+            if (!response.ok) {
                 const errorData = await response.json();
+                console.error("Error Response:", errorData);
                 alert(`Error: ${errorData.msg || "Failed to delete notification"}`);
+                return;
             }
+
+            alert("Notification deleted successfully!");
         } catch (error) {
-            alert("An error occurred while deleting the notification.");
-            console.error(error.message);
+            console.error("Network Error:", error.message);
+            alert("An unexpected error occurred while deleting the notification.");
         }
     };
 
@@ -177,11 +214,25 @@ const AdminDashboard = () => {
                 <select
                     name="type"
                     value={notification.type}
-                    onChange={handleNotificationChange}
+                    onChange={(e) => {
+                        handleNotificationChange(e);
+                        if (e.target.value === "public") {
+                            setNotification((prev) => ({ ...prev, userId: "" })); // Clear userId for public notifications
+                        }
+                    }}
                 >
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
+                {notification.type === "private" && (
+                    <input
+                        type="text"
+                        name="userId"
+                        placeholder="User ID"
+                        value={notification.userId}
+                        onChange={handleNotificationChange}
+                    />
+                )}
                 <button onClick={postNotification}>Post Notification</button>
             </section>
 
@@ -191,7 +242,9 @@ const AdminDashboard = () => {
                 <input
                     type="text"
                     placeholder="Product ID"
-                    onChange={(e) => deleteProduct(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") deleteProduct(e.target.value);
+                    }}
                 />
             </section>
 
@@ -201,7 +254,9 @@ const AdminDashboard = () => {
                 <input
                     type="text"
                     placeholder="Notification ID"
-                    onChange={(e) => deleteNotification(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") deleteNotification(e.target.value);
+                    }}
                 />
             </section>
         </div>
