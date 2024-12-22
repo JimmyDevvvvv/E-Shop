@@ -1,68 +1,180 @@
-/* General Styles */
-.products-page {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    text-align: center;
+/* Full Page Background */
+body {
+    margin: 0;
     font-family: "Amazon Ember", Arial, sans-serif;
-}
-
-.products-page h1 {
-    font-size: 2rem;
+    background: url("https://images.unsplash.com/photo-1560848188-6d6b2e6b8f7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000")
+    no-repeat center center fixed;
+    background-size: cover;
     color: #232f3e;
-    margin-bottom: 20px;
 }
 
-.error {
-    color: #d93025;
-    font-size: 1.2rem;
-    margin: 20px;
+/* Page Container */
+.product-page {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 1s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Products Grid */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 10px;
-}
-
-.product-card {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Page Title */
+.product-page h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #232f3e;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    animation: slideInDown 0.8s ease;
 }
 
-.product-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.product-image {
-    max-width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.product-card h3 {
+/* Success Message */
+.success {
+    color: #28a745;
     font-size: 1.2rem;
+    text-align: center;
+    margin: 10px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Error Message */
+.error {
+    color: red;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 10px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Product List */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0;
+    animation: slideIn 1s ease-out;
+}
+
+/* Product Item */
+.product-item {
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.product-item:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Title */
+.product-item h3 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
     color: #232f3e;
-    margin-bottom: 5px;
-}
-
-.product-card p {
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-.product-card h4 {
-    font-size: 1.2rem;
-    color: #ff9900;
     font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Description */
+.product-item p {
+    margin: 0 0 10px;
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.product-item .price {
+    font-weight: bold;
+    color: #ff9900;
+    font-size: 1.3rem;
+}
+
+/* Add to Cart Button */
+.add-to-cart-button {
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+    background-color: #f3a847;
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-page {
+        padding: 20px;
+    }
+
+    .product-page h1 {
+        font-size: 2rem;
+    }
+
+    .product-item {
+        padding: 15px;
+    }
+
+    .product-item h3 {
+        font-size: 1.5rem;
+    }
+
+    .product-item p {
+        font-size: 1rem;
+    }
+
+    .add-to-cart-button {
+        font-size: 0.9rem;
+    }
 }
